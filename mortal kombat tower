@@ -1,0 +1,32 @@
+#include <bits/stdc++.h>
+#define int long long
+#define pb push_back
+#define cl clear()
+#define rsz resize
+using namespace std;
+
+vector<int> seq;
+vector<vector<int>> dp;
+const int inf=2*1e5;
+int32_t main() {
+    int n; cin >> n;
+
+    while(cin >> n) {
+        seq.cl; seq.rsz(n);
+        for(int &a : seq) cin >> a;
+        dp.cl; dp.rsz(n+1,vector<int>(2,inf));
+        dp[0][0]=0; dp[0][1]=0;
+        
+        for(int e=0; e<n; ++e) {
+            dp[e+1][1] = min(dp[e+1][1], dp[e][0]+seq[e]);
+            dp[e+1][0] = min(dp[e+1][0], dp[e][1]);
+            
+            if((e+2)<n) {
+                dp[e+2][1] = min(dp[e+2][1], dp[e][0]+seq[e]+seq[e+1]);
+                dp[e+2][0] = min(dp[e+2][0], dp[e][1]);
+            }
+        }
+        cout << min(dp[n][0],dp[n][1]) << "\n";
+    }
+    return 0;
+}
